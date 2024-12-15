@@ -20,9 +20,9 @@ public interface AgricultorService {
 
     void updateAgricultor(UUID id, Agricultor agricultor) throws Exception;
 
-    Optional<AgricultorDTO> findById(UUID id);
+    List<AgricultorDTO> findById(UUID id);
 
-    Optional<AgricultorDTO> findByName(String name);
+    List<AgricultorDTO> findByName(String name);
 
     List<AgricultorDTO> showAllAgricultores();
 }

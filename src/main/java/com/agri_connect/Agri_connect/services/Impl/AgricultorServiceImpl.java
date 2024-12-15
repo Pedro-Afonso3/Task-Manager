@@ -1,11 +1,13 @@
 package com.agri_connect.Agri_connect.services.Impl;
 
+import com.agri_connect.Agri_connect.Exceptions.AgricultorNotFoundException;
 import com.agri_connect.Agri_connect.domain.agricultor.Agricultor;
 import com.agri_connect.Agri_connect.domain.agricultor.AgricultorDTO;
 import com.agri_connect.Agri_connect.domain.produtos.Produtos;
 import com.agri_connect.Agri_connect.domain.produtos.ProdutosDTO;
 import com.agri_connect.Agri_connect.repositories.AgricultorRepository;
 import com.agri_connect.Agri_connect.services.AgricultorService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AgricultorServiceImpl implements AgricultorService {
 
     @Autowired
     AgricultorRepository repository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
 
     @Override
@@ -93,23 +99,38 @@ public class AgricultorServiceImpl implements AgricultorService {
     }
 
     @Override
-    public Optional<AgricultorDTO> findById(UUID id) {
-        return repository.findById(id)
-                .map(this::convertToDTO);
+    public List<AgricultorDTO> findById(UUID id) {
+        Optional<Agricultor> agricultor = repository.findById(id);
+        if (agricultor.isEmpty()) {
+            throw new AgricultorNotFoundException("Nenhum agricultor com esse ID foi encontrado!");
+        }
+        return agricultor.stream()
+                .map(agricultors -> modelMapper.map(agricultors, AgricultorDTO.class))
+                .collect(Collectors.toList());
+
     }
 
     @Override
-    public Optional<AgricultorDTO> findByName(String name) {
-        return repository.findByName(name)
-                .map(this::convertToDTO);
+    public List<AgricultorDTO> findByName(String name) {
+        Optional<Agricultor> agricultor = repository.findByName(name);
+        if (agricultor.isEmpty()) {
+            throw new AgricultorNotFoundException("Nenhum agricultor com esse NOME foi encontrado!");
+        }
+        return agricultor.stream()
+                .map(agricultors -> modelMapper.map(agricultors, AgricultorDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<AgricultorDTO> showAllAgricultores() {
-        return repository.findAll()
-                .stream()
-                .map(this::convertToDTO)
-                .toList();
+
+        List<Agricultor> agricultor = repository.findAll();
+        if (agricultor.isEmpty()) {
+            throw new AgricultorNotFoundException("Nenhum agricultor foi encontrado!");
+        }
+        return agricultor.stream()
+                .map(agricultors -> modelMapper.map(agricultors, AgricultorDTO.class))
+                .collect(Collectors.toList());
     }
 
     // Converte Agricultor para AgricultorDTO

@@ -18,9 +18,9 @@ public interface ProdutosService {
 
     void updateProdutos(UUID id, Produtos produtos) throws Exception;
 
-    Optional<ProdutosDTO> findById(UUID id);
+    List<ProdutosDTO> findById(UUID id);
 
-    Optional<ProdutosDTO> findByNomeProduto(String nomeProduto);
+    List<ProdutosDTO> findByNomeProduto(String nomeProduto);
 
     List<ProdutosDTO> showAllProdutos();
 }
