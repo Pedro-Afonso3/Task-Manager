@@ -1,5 +1,6 @@
 package com.agri_connect.Agri_connect.controller;
 
+import com.agri_connect.Agri_connect.Exceptions.ProdutoNotFoundException;
 import com.agri_connect.Agri_connect.domain.agricultor.Agricultor;
 import com.agri_connect.Agri_connect.domain.agricultor.AgricultorDTO;
 import com.agri_connect.Agri_connect.domain.produtos.Produtos;
@@ -21,11 +22,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(name="produtos")
+@RequestMapping("/produtos")
 @Tag(name = "Produtos", description ="Controller para Produtos")
 public class ProdutosController {
 
@@ -56,21 +58,27 @@ public class ProdutosController {
     //BUSCA POR TODOS
     @GetMapping("/showAll")
     @Operation(summary = "Consultar todos", description = "Consultar todos Produtos")
-    public ResponseEntity<Iterable<ProdutosDTO>> showAllAgricultor(){
+    public ResponseEntity<List<ProdutosDTO>> showAllAgricultor(){
         return ResponseEntity.ok(produtosService.showAllProdutos());
     }
 
     //BUSCA POR ID
     @GetMapping("/findById")
     @Operation(summary = "Consultar por ID", description = "Consultar os Produtos por ID")
-    public ResponseEntity<Optional<ProdutosDTO>> findById(UUID id){
+    public ResponseEntity<List<ProdutosDTO>> findById(UUID id){
         return ResponseEntity.ok(produtosService.findById(id));
     }
 
     //BUSCAR POR Name
     @GetMapping("/findByNomeProduto")
     @Operation(summary = "Consultar por ID", description = "Consultar os Produtos por Nome")
-    public ResponseEntity<Optional<ProdutosDTO>> findByNomeProduto(String nomeProduto){
+    public ResponseEntity<List<ProdutosDTO>> findByNomeProduto(String nomeProduto){
         return ResponseEntity.ok(produtosService.findByNomeProduto(nomeProduto));
+    }
+
+    @ExceptionHandler(ProdutoNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleProdutoNotFoundException(ProdutoNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

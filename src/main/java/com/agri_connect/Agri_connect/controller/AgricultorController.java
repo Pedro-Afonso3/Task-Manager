@@ -1,5 +1,7 @@
 package com.agri_connect.Agri_connect.controller;
 
+import com.agri_connect.Agri_connect.Exceptions.AgricultorNotFoundException;
+import com.agri_connect.Agri_connect.Exceptions.ProdutoNotFoundException;
 import com.agri_connect.Agri_connect.domain.agricultor.Agricultor;
 import com.agri_connect.Agri_connect.domain.agricultor.AgricultorDTO;
 import com.agri_connect.Agri_connect.services.AgricultorService;
@@ -19,11 +21,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(name="agricultor")
+@RequestMapping("/agricultor")
 @Tag(name = "Agricultor", description ="Controller para Agricultor")
 public class AgricultorController {
 
@@ -82,22 +85,28 @@ public class AgricultorController {
     //BUSCA POR TODOS
     @GetMapping("/showAll")
     @Operation(summary = "Consultar todos", description = "Consultar todos agricultores")
-    public ResponseEntity<Iterable<AgricultorDTO>> showAllAgricultor(){
+    public ResponseEntity<List<AgricultorDTO>> showAllAgricultor(){
         return ResponseEntity.ok(agricultorService.showAllAgricultores());
     }
 
     //BUSCA POR ID
     @GetMapping("/findById")
     @Operation(summary = "Consultar por ID", description = "Consultar os agricultor por ID")
-    public ResponseEntity<Optional<AgricultorDTO>> findById(UUID id){
+    public ResponseEntity<List<AgricultorDTO>> findById(UUID id){
         return ResponseEntity.ok(agricultorService.findById(id));
     }
 
     //BUSCAR POR Name
     @GetMapping("/findByName")
     @Operation(summary = "Consultar por ID", description = "Consultar os agricultores por Name")
-    public ResponseEntity<Optional<AgricultorDTO>> findByName(String name){
+    public ResponseEntity<List<AgricultorDTO>> findByName(String name){
         return ResponseEntity.ok(agricultorService.findByName(name));
+    }
+
+    @ExceptionHandler(AgricultorNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleAgricultorNotFoundException(AgricultorNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
 }
