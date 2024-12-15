@@ -1,6 +1,7 @@
 package com.agri_connect.Agri_connect.domain.agricultor;
 
 import com.agri_connect.Agri_connect.domain.produtos.Produtos;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Agricultor {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
