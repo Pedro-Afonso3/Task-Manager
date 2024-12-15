@@ -4,14 +4,13 @@ import com.agri_connect.Agri_connect.domain.agricultor.Agricultor;
 import com.agri_connect.Agri_connect.domain.agricultor.AgricultorDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProdutosDTO {
+public class ProdutosDTO implements Serializable {
 
     private UUID id;
     private String nomeProduto;

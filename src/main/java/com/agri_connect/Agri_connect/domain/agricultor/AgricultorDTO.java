@@ -2,16 +2,19 @@ package com.agri_connect.Agri_connect.domain.agricultor;
 
 import com.agri_connect.Agri_connect.domain.produtos.Produtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AgricultorDTO {
+public class AgricultorDTO implements Serializable {
     private UUID id;
     private String name;
     private String telefone;
@@ -114,6 +117,8 @@ public class AgricultorDTO {
     public void setRegiao(String regiao) {
         this.regiao = regiao;
     }
+
+
 
     @JsonIgnore // Oculta na serialização (POST e PUT)
     public List<Produtos> getProdutosList() {
