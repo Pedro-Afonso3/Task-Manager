@@ -71,7 +71,7 @@ public class ProdutosController {
 
     //BUSCAR POR Name
     @GetMapping("/findByNomeProduto")
-    @Operation(summary = "Consultar por ID", description = "Consultar os Produtos por Nome")
+    @Operation(summary = "Consultar por Nome", description = "Consultar os Produtos por Nome")
     public ResponseEntity<List<ProdutosDTO>> findByNomeProduto(String nomeProduto){
         return ResponseEntity.ok(produtosService.findByNomeProduto(nomeProduto));
     }

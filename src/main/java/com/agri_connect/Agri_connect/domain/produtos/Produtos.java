@@ -29,4 +29,4 @@ public class Produtos {
     @ManyToOne
     @JoinColumn(name="agricultor_id")
     private Agricultor agricultor;
-}
+    }

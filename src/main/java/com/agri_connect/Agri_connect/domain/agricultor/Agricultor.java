@@ -20,6 +20,7 @@ import java.util.UUID;
 public class Agricultor {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name="agricultor_id")
     private UUID id;
 
     private String name;
@@ -36,7 +37,6 @@ public class Agricultor {
     private String regiao;
 
     @OneToMany(mappedBy = "agricultor",cascade = CascadeType.ALL)
-    @Column(name="produtosList")
     private List<Produtos> produtosList;
 
     @PrePersist

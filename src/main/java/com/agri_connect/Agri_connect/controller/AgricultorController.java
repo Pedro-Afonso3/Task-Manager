@@ -98,7 +98,7 @@ public class AgricultorController {
 
     //BUSCAR POR Name
     @GetMapping("/findByName")
-    @Operation(summary = "Consultar por ID", description = "Consultar os agricultores por Name")
+    @Operation(summary = "Consultar por Nome", description = "Consultar os agricultores por Name")
     public ResponseEntity<List<AgricultorDTO>> findByName(String name){
         return ResponseEntity.ok(agricultorService.findByName(name));
     }
