@@ -40,7 +40,6 @@ public class Users implements UserDetails {
     }
 
 
-
     @PrePersist
     private void gerarDados() {
         if (id == null) {
